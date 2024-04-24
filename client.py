@@ -2,6 +2,7 @@ import socket
 from threading import Thread
 import select
 import utils
+import os
 
 
 class Client:
@@ -20,16 +21,19 @@ class Client:
         available_files = self.input_stream.readline().strip()
         print(available_files)
 
-        choice = input('Entrez le nom du fichier pour télécharger: ')
+        choice = input('Veuillez entrez le nom du fichier pour télécharger: ')
         self.output_stream.write(choice + '\n')
         self.output_stream.flush()
 
-        # Receive Huffman coding table and compressed file from server
+        
         huffman_table = eval(self.input_stream.readline().strip())
         compressed_file = self.input_stream.readline().strip()
 
-        # Use Huffman coding table and compressed file to decode
-        huffman = utils.Huffman('')
+        print('file compressé:' , compressed_file)
+
+
+        
+        huffman = utils.Huffman('=')
         decoded_text = huffman.decoder_huffman(compressed_file, huffman_table)
         print("Texte décompressé:", decoded_text)
 
